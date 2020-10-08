@@ -3,29 +3,23 @@ import React from 'react'
 const Page = (props) => {
   const { pageNumber, currentPageNumber, onChange } = props
 
-  const isActivePage = () => {
-    return currentPageNumber == pageNumber
-  }
-
-  const renderedPageNumber = () => {
-    return pageNumber + 1
-  }
+  const isActivePage = currentPageNumber == pageNumber
 
   const click = (event) => {
     event.preventDefault()
     onChange(pageNumber)
   }
 
-  if (isActivePage()) {
+  if (isActivePage) {
     return(
       <li className="page-item mr-1">
-        <button className="page-link button-outline" onClick={click} >{renderedPageNumber()}</button>
+        <button className="page-link button-outline" onClick={click}>{pageNumber}</button>
       </li>
     )
   }
   return(
     <li className="page-item mr-1">
-      <button className="page-link" onClick={click} >{renderedPageNumber()}</button>
+      <button className="page-link" onClick={click}>{pageNumber}</button>
     </li>
   )
 }
