@@ -1,6 +1,7 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
-import App from './App';
+import { mount } from 'enzyme';
+import DataTable from './index';
+import { DataTableContextProvider } from './DataTableContext';
 
 const rows = [
   {
@@ -35,20 +36,22 @@ const rows = [
   }
 ];
 
-it('renders without crashing', () => {
-  shallow(<App rows={[]} locale="da" rowsPerPage={5} />);
-});
-
 it('renders 5 rows', () => {
-  const wrapper = mount(<App rows={rows} locale="da" rowsPerPage={5} />);
+  const wrapper = mount(
+    <DataTableContextProvider pageSize={5} rows={rows}>
+      <DataTable />
+    </DataTableContextProvider>
+  );
 
   expect(wrapper.find('tr').length).toBe(5);
 });
 
 it('filters rows based on input', () => {
-  const wrapper = mount(<App rows={rows} locale="da" rowsPerPage={5} />);
-
+  const wrapper = mount(
+    <DataTableContextProvider pageSize={5} rows={rows}>
+      <DataTable />
+    </DataTableContextProvider>
+  );
   wrapper.find('input').simulate('change', { target: { value: 'k' } });
-
   expect(wrapper.find('tr').length).toBe(2);
 });
