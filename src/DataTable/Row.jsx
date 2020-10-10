@@ -6,7 +6,9 @@ const Row = (props) => {
   return (
     <tr>
       <td>
-        <a href={row.edit_path} target="_blank" rel="noopener noreferrer">{row.name1}</a>
+        <a href={row.edit_path} target="_blank" rel="noopener noreferrer">
+          {row.name1}
+        </a>
         <br />
         <small>{row.email}</small>
       </td>

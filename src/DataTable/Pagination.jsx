@@ -6,7 +6,7 @@ import Page from './Page';
 const Pagination = () => {
   const { matchingRows, pageSize } = useDataTableSelector((state) => state);
   const totalNumberOfPages = useMemo(
-    () => Math.ceil(Object.keys(matchingRows).length / pageSize),
+    () => Math.ceil(matchingRows.length / pageSize),
     [matchingRows, pageSize]
   );
 
