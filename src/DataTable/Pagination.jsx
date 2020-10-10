@@ -1,27 +1,25 @@
-import React from 'react'
+import React, { useMemo } from 'react';
+import { useDataTableSelector } from './DataTableContext';
 
-import Page from './Page'
+import Page from './Page';
 
-const Pagination = ({ currentPageNumber, totalNumberOfPages, onChange }) => {
-  const pages =
-    Array
-      .from(Array(totalNumberOfPages).keys())
-      .map(pageNumber => {
-        return <Page
-          key={pageNumber}
-          currentPageNumber={currentPageNumber}
-          pageNumber={pageNumber}
-          onChange={onChange} />
-      })
+const Pagination = () => {
+  const { matchingRows, pageSize } = useDataTableSelector((state) => state);
+  const totalNumberOfPages = useMemo(
+    () => Math.ceil(matchingRows.length / pageSize),
+    [matchingRows, pageSize]
+  );
 
-  if (pages.length <= 1) {
-    return null
+  if (totalNumberOfPages <= 1) {
+    return null;
   }
-  return(
+  return (
     <ul className="pagination">
-      {pages}
+      {[...Array(totalNumberOfPages).keys()].map((pageNumber) => {
+        return <Page key={pageNumber} pageNumber={pageNumber + 1} />;
+      })}
     </ul>
-  )
-}
+  );
+};
 
-export default Pagination
+export default Pagination;

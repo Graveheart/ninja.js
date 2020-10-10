@@ -1,33 +1,33 @@
-import React from 'react'
+import React from 'react';
+import clsx from 'clsx';
+import {
+  useDataTableSelector,
+  useUpdateDataTableContext
+} from './DataTableContext';
 
-const Page = (props) => {
-  const { pageNumber, currentPageNumber, onChange } = props
+const Page = ({ pageNumber }) => {
+  const page = useDataTableSelector((state) => state.page);
+  const dispatch = useUpdateDataTableContext();
 
-  const isActivePage = () => {
-    return currentPageNumber == pageNumber
-  }
+  const isActivePage = pageNumber === page;
 
-  const renderedPageNumber = () => {
-    return pageNumber + 1
-  }
+  const handlePageChange = (event) => {
+    event.preventDefault();
+    dispatch({ type: 'SET_PAGE', payload: { page: pageNumber } });
+  };
 
-  const click = (event) => {
-    event.preventDefault()
-    onChange(pageNumber)
-  }
-
-  if (isActivePage()) {
-    return(
-      <li className="page-item mr-1">
-        <button className="page-link button-outline" onClick={click} >{renderedPageNumber()}</button>
-      </li>
-    )
-  }
-  return(
+  return (
     <li className="page-item mr-1">
-      <button className="page-link" onClick={click} >{renderedPageNumber()}</button>
+      <button
+        className={clsx('page-link', {
+          'button-outline': isActivePage
+        })}
+        onClick={handlePageChange}
+      >
+        {pageNumber}
+      </button>
     </li>
-  )
-}
+  );
+};
 
-export default Page
+export default Page;
